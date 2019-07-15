@@ -104,7 +104,7 @@ app.use(async (ctx, next) => {
     .then(response => (ctx.body = response))
     .catch(error => (renderError = error));
   } else {
-    let clipInfo = fullPage === "1" ? {fullPage: true} : { clip: { x: 0, y: 0, width: width, height: height}} ;
+    let clipInfo = fullPage ? {fullPage: true} : { clip: { x: 0, y: 0, width, height }} ;
     await page
       .screenshot(Object.assign({
         type: format === 'jpg' ? 'jpeg' : format,
