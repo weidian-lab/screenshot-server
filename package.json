@@ -9,11 +9,13 @@
   "author": "sqlwwx <wwx_2012@live.com> (http://wiki.lab.wuweixing.com)",
   "license": "MIT",
   "dependencies": {
+    "core-js": "3",
     "debug": "^4.1.1",
     "egg-logger": "^2.4.1",
     "generic-pool": "^3.7.1",
     "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
     "puppeteer-core": "^1.18.1",
-    "pure-func": "^2.0.4"
+    "pure-func": "^2.0.6"
   }
 }

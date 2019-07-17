@@ -1,4 +1,5 @@
 const Koa = require('koa')
+const bodyParser = require('koa-bodyparser')
 const { sleep } = require('pure-func/promise')
 
 const createPuppeteerPool = require('./lib/puppeteer-pool')
@@ -20,7 +21,16 @@ const pool = createPuppeteerPool({
 app.use(async (ctx, next) => {
   const startedAt = Date.now()
   await next()
-  logger.info(`${ctx.method} ${ctx.url}[${ctx.state.pid}] - ${Date.now() - startedAt}`)
+  logger.info(`${ctx.method} ${ctx.path} [${ctx.state.pid}] - ${Date.now() - startedAt}`)
+})
+
+app.use(bodyParser())
+
+app.use(async (ctx, next) => {
+  if (ctx.method === 'POST') {
+    ctx.request.query = ctx.request.body
+  }
+  await next()
 })
 
 app.use(async (ctx, next) => {
@@ -29,8 +39,13 @@ app.use(async (ctx, next) => {
   if (!url) {
     ctx.throw(400, 'No url request parameter supplied.')
   }
-  if (url.indexOf('file://') >= 0 && !allowFileScheme) {
-    ctx.throw(403)
+  if (url.startsWith('file://')) {
+    if (!config.wwwPath) {
+      ctx.throw(403)
+    }
+    if (!url.startsWith( 'file://' + config.wwwPath)) {
+      ctx.throw(403)
+    }
   }
   await next()
 })
