@@ -4,6 +4,7 @@ const { sleep } = require('pure-func/promise')
 
 const createPuppeteerPool = require('./lib/puppeteer-pool')
 const logger = require('./lib/logger')
+const ContextLogger = require('egg-logger/lib/egg/context_logger')
 const config = require('./lib/config')
 
 const { server: { port } } = config
@@ -20,8 +21,9 @@ const pool = createPuppeteerPool({
 
 app.use(async (ctx, next) => {
   const startedAt = Date.now()
+  ctx.logger = new ContextLogger(ctx, logger)
   await next()
-  logger.info(`${ctx.method} ${ctx.path} [${ctx.state.pid}] - ${Date.now() - startedAt}`)
+  ctx.logger.info(`${ctx.method} ${ctx.path} [${ctx.state.pid}] - ${Date.now() - startedAt}`)
 })
 
 app.use(bodyParser())
@@ -66,21 +68,21 @@ app.use(async (ctx, next) => {
     width: Math.min(2048, parseInt(width, 10) || config.screen.width),
     height: Math.min(2048, parseInt(height, 10) || config.screen.height),
   };
-  logger.debug(`Instantiating Page with size ${size.width}x${size.height}`);
+  ctx.logger.debug(`Instantiating Page with size ${size.width}x${size.height}`);
   let pageError;
   await pool.use(inst => {
     const pid = inst.process().pid
     ctx.state.pid = pid
-    logger.debug(`Using browser instance with PID ${pid}`)
+    ctx.logger.debug(`Using browser instance with PID ${pid}`)
     return inst.newPage().then(page => {
-      logger.debug('Set page instance on state')
+      ctx.logger.debug('Set page instance on state')
       ctx.state.page = page
     }).then(() => {
-      logger.debug('Set viewport for page');
+      ctx.logger.debug('Set viewport for page');
       return ctx.state.page.setViewport(size);
     }).catch(error => {
       pageError = error
-      logger.debug(`Invalidating instance with PID ${pid}`);
+      ctx.logger.debug(`Invalidating instance with PID ${pid}`);
       pool.invalidate(inst)
     })
   })
@@ -93,12 +95,12 @@ app.use(async (ctx, next) => {
 app.use(async (ctx, next) => {
   const { url } = ctx.request.query
   const { page } = ctx.state
-  logger.debug(`Attempting to load ${url}`)
+  ctx.logger.debug(`Attempting to load ${url}`)
   try {
     await page.goto(url)
     await sleep(config.screen.screenshotDelay)
   } catch (err) {
-    logger.error(err)
+    ctx.logger.error(err)
     ctx.throw(404)
   }
   await next()
@@ -110,7 +112,7 @@ app.use(async (ctx, next) => {
   const { format, page, browser } = ctx.state;
   const { width, height } = page.viewport();
   let renderError;
-  logger.debug(`Rendering screenshot of ${url} to ${format}`);
+  ctx.logger.debug(`Rendering screenshot of ${url} to ${format}`);
   if (format === 'pdf') {
     await page.pdf({
       format: 'A4',
@@ -136,12 +138,12 @@ app.use(async (ctx, next) => {
 });
 
 
-app.on('error', (error, context) => {
-  const { page } = context.state;
+app.on('error', (error, ctx) => {
+  const { page } = ctx.state;
   if (page) {
     page.close();
   }
-  logger.error(error.message);
+  ctx.logger.error(error.message);
 });
 
 app.listen(port)
