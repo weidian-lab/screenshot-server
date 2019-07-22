@@ -8,7 +8,7 @@
   },
   "scripts": {
     "initAliyunService": "NAMESPACE=base weidian aliyunService init .",
-    "start": "node app.js"
+    "start": "node app"
   },
   "author": "sqlwwx <wwx_2012@live.com> (http://wiki.lab.wuweixing.com)",
   "license": "MIT",
