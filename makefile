@@ -7,7 +7,7 @@ PACKAGE_VERSION := $(shell node -p "require('./package.json').version")
 DOCKER_REGISTRY ?= registry.cn-hangzhou.aliyuncs.com
 DOCKER_NAMESPACE ?= weidian-lab
 NAMESPACE ?= $(shell node -p "require('./package.json').weidian.namespace")
-APP_ENV ?= prod
+APP_ENV ?= pre
 
 export APP_ENV
 export NAMESPACE

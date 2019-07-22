@@ -13,8 +13,8 @@ spec:
     app: ${NAMESPACE}-${APP_NAME}
 ---
 apiVersion: extensions/v1beta1
-kind: Deployment metadata:
-name: ${NAMESPACE}-${APP_NAME}
+kind: Deployment
+metadata:
   name: ${NAMESPACE}-${APP_NAME}
   namespace: ${NAMESPACE}
 spec:
