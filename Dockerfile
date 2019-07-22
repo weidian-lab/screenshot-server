@@ -9,4 +9,6 @@ RUN yarn --frozen-lockfile --no-cache --production && \
 
 COPY app pp
 
+ENV WWW_PATH=/app/www
+
 CMD npm start

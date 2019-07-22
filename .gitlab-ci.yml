@@ -1,0 +1,49 @@
+image: docker:stable
+
+variables:
+  DOCKER_REGISTRY: registry.cn-hangzhou.aliyuncs.com
+
+stages:
+  - build
+  - deploy
+
+build-docker:
+  image: sqlwwx/docker-stable:latest
+  stage: build
+  only:
+    - tags
+    - develop
+  tags:
+    - docker
+  before_script:
+    - echo "$REGISTRY_PASSWORD" | docker login $DOCKER_REGISTRY -u "$REGISTRY_USER" --password-stdin
+  after_script:
+    - docker logout $DOCKER_REGISTRY
+  script:
+    - make prodDockerImg
+
+deploy:
+  image:
+    name: sqlwwx/k8s-kubectl:latest
+    entrypoint: ["/bin/sh", "-c"]
+  stage: deploy
+  only:
+    - develop
+  before_script:
+    - mkdir -p $HOME/.kube
+    - echo -n $KUBE_CONFIG_DEV | base64 -d > $HOME/.kube/config
+  script:
+    - make deployDev
+
+deploy-prod:
+  image:
+    name: sqlwwx/k8s-kubectl:latest
+    entrypoint: ["/bin/sh", "-c"]
+  stage: deploy
+  only:
+    - tags
+  before_script:
+    - mkdir -p $HOME/.kube
+    - echo -n $KUBE_CONFIG_DEV | base64 -d > $HOME/.kube/config
+  script:
+    - make deployProd
