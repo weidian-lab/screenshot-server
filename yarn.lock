@@ -3971,10 +3971,10 @@ vary@^1.1.2:
   resolved "https://registry.npm.taobao.org/vary/download/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
-weidian-cli@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.npm.taobao.org/weidian-cli/download/weidian-cli-1.0.0.tgz?cache=0&sync_timestamp=1563770974886&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fweidian-cli%2Fdownload%2Fweidian-cli-1.0.0.tgz#4f0733f99c431b098c2113968d7abc598b0b618a"
-  integrity sha1-Twcz+ZxDGwmMIROWjXq8WYsLYYo=
+weidian-cli@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.npm.taobao.org/weidian-cli/download/weidian-cli-1.0.2.tgz#f0b9c7c3d21273d2c9b23106a00d74c5b433815e"
+  integrity sha1-8LnHw9ISc9LJsjEGoA10xbQzgV4=
   dependencies:
     alicloud-log "^1.1.0"
     commander "^2.20.0"
