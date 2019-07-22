@@ -7,7 +7,7 @@ COPY package.json yarn.lock ./
 RUN yarn --frozen-lockfile --no-cache --production && \
   rm -rf /tmp/* && rm -rf $HOME/.npm/_cacache
 
-COPY app pp
+COPY app app
 
 ENV WWW_PATH=/app/www
 
