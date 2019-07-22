@@ -7,7 +7,7 @@ PACKAGE_VERSION := $(shell node -p "require('./package.json').version")
 DOCKER_REGISTRY ?= registry.cn-hangzhou.aliyuncs.com
 DOCKER_NAMESPACE ?= weidian-lab
 NAMESPACE ?= $(shell node -p "require('./package.json').weidian.namespace")
-APP_ENV ?= pre
+APP_ENV ?= development
 
 export APP_ENV
 export NAMESPACE
@@ -38,7 +38,7 @@ prodDockerImg:
 	docker push $(CONTAINER_IMAGE):latest
 
 deployDev:
-	APP_ENV=test envsubst < env.yml | kubectl apply -f -
+	envsubst < env.yml | kubectl apply -f -
 	envsubst < deployment-dev.yml | kubectl apply -f -
 
 deployProd:
