@@ -1,0 +1,104 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${NAMESPACE}-${APP_NAME}-svc
+  namespace: ${NAMESPACE}
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 7001
+  selector:
+    app: ${NAMESPACE}-${APP_NAME}
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ${NAMESPACE}-${APP_NAME}
+  namespace: ${NAMESPACE}
+spec:
+  replicas: 1
+  progressDeadlineSeconds: 600
+  revisionHistoryLimit: 10
+  template:
+    metadata:
+      labels:
+        app: ${NAMESPACE}-${APP_NAME}
+    spec:
+      imagePullSecrets:
+        - name: aliyun-docker-registry
+      containers:
+        - name: ${NAMESPACE}-${APP_NAME}
+          image: registry-vpc.cn-hangzhou.aliyuncs.com/weidian-lab/${NAMESPACE}-${APP_NAME}:${CI_COMMIT_SHA}
+          resources:
+            requests:
+              memory: 1Gi
+              cpu: "1"
+            limits:
+              memory: 2Gi
+              cpu: "1"
+          envFrom:
+            - configMapRef:
+                name: ${NAMESPACE}-${APP_NAME}
+          volumeMounts:
+            - name: log
+              mountPath: /usr/local/app/logs
+            - name: "oss"
+              mountPath: "/app/www"
+          env:
+            - name: CI_COMMIT_SHA
+              value: "${CI_COMMIT_SHA}"
+          imagePullPolicy: "Always"
+          livenessProbe:
+            failureThreshold: 5
+            initialDelaySeconds: 15
+            periodSeconds: 3
+            successThreshold: 1
+            tcpSocket:
+              port: 7001
+            timeoutSeconds: 1
+          ports:
+          - containerPort: 7001
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 20
+            periodSeconds: 3
+            successThreshold: 1
+            tcpSocket:
+              port: 7001
+            timeoutSeconds: 1
+        - name: ilogtail
+          image: registry-vpc.cn-hangzhou.aliyuncs.com/acs/ilogtail:0.13.4-eb42407
+          resources:
+            requests:
+              memory: 200Mi
+              cpu: 100m
+            limits:
+              memory: 200Mi
+              cpu: 100m
+          envFrom:
+            - configMapRef:
+                name: ${NAMESPACE}-${APP_NAME}
+          volumeMounts:
+            - name: log
+              mountPath: /ecilogs-${NAMESPACE}
+              readOnly: true
+      volumes:
+        - name: log
+          emptyDir: {}
+        - name: "oss"
+          flexVolume:
+            driver: "alicloud/oss"
+            options:
+              bucket: "lab-template"
+              # url: "oss-cn-hangzhou.aliyuncs.com"
+              url: "oss-cn-hangzhou-internal.aliyuncs.com"
+              akId: "${OSS_VOLUME_KEY}"
+              akSecret: "${OSS_VOLUME_SECRET}"
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
