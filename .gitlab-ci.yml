@@ -22,26 +22,13 @@ build-docker:
   script:
     - make prodDockerImg
 
-deploy-dev:
-  image:
-    name: sqlwwx/k8s-kubectl:latest
-    entrypoint: ["/bin/sh", "-c"]
-  stage: deploy
-  only:
-    - develop
-  before_script:
-    - mkdir -p $HOME/.kube
-    - echo -n $KUBE_CONFIG_DEV | base64 -d > $HOME/.kube/config
-  script:
-    - APP_ENV=development make deployDev
-
 deploy-test:
   image:
     name: sqlwwx/k8s-kubectl:latest
     entrypoint: ["/bin/sh", "-c"]
   stage: deploy
   only:
-    - master
+    - develop
   before_script:
     - mkdir -p $HOME/.kube
     - echo -n $KUBE_CONFIG_DEV | base64 -d > $HOME/.kube/config
@@ -54,7 +41,7 @@ deploy-prod:
     entrypoint: ["/bin/sh", "-c"]
   stage: deploy
   only:
-    - tags
+    - master
   before_script:
     - mkdir -p $HOME/.kube
     - echo -n $KUBE_CONFIG_DEV | base64 -d > $HOME/.kube/config
