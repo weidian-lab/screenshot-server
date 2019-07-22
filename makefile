@@ -38,7 +38,7 @@ prodDockerImg:
 	docker push $(CONTAINER_IMAGE):latest
 
 deployDev:
-	envsubst < env.yml | kubectl apply -f -
+	APP_ENV=test envsubst < env.yml | kubectl apply -f -
 	envsubst < deployment-dev.yml | kubectl apply -f -
 
 deployProd:
