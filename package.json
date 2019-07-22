@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "weidian": {
+    "namespace": "base"
+  },
   "scripts": {
+    "initAliyunService": "NAMESPACE=base weidian aliyunService init .",
     "start": "node app.js"
   },
   "author": "sqlwwx <wwx_2012@live.com> (http://wiki.lab.wuweixing.com)",
@@ -17,5 +21,8 @@
     "koa-bodyparser": "^4.2.1",
     "puppeteer-core": "^1.18.1",
     "pure-func": "^2.0.6"
+  },
+  "devDependencies": {
+    "weidian-cli": "git+ssh://git@gitlab.weidiango.com:tools/weidian-cli.git"
   }
 }
