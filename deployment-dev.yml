@@ -78,7 +78,7 @@ spec:
           flexVolume:
             driver: "alicloud/oss"
             options:
-              bucket: "lab-devices"
+              bucket: "lab-template"
               # url: "oss-cn-hangzhou.aliyuncs.com"
               url: "oss-cn-hangzhou-internal.aliyuncs.com"
               akId: "${OSS_VOLUME_KEY}"
