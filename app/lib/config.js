@@ -8,7 +8,7 @@ const {
   SCREEN_WIDTH = 750,
   SCREEN_HEIGHT = 768,
   DEFAULT_FORMAT = 'jpeg',
-  WWW_PATH = '',
+  WWW_PATH = ''
 } = process.env
 
 exports.server = {
@@ -21,7 +21,7 @@ exports.screen = {
   screenshotDelay: SCREENSHOT_DELAY,
   width: SCREEN_WIDTH,
   height: SCREEN_HEIGHT,
-  defaultFormat: 'jpeg',
+  defaultFormat: DEFAULT_FORMAT,
   supportedFormats: ['jpg', 'jpeg', 'pdf', 'png']
 }
 
@@ -30,6 +30,6 @@ exports.puppeteer = {
   args: CHROME_ARGS.split(','),
   pool: {
     min: PUPPETEER_POOL_MIN,
-    max: PUPPETEER_POOL_MAX,
+    max: PUPPETEER_POOL_MAX
   }
 }

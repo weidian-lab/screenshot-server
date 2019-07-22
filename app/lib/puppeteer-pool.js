@@ -11,7 +11,7 @@ const initPuppeteerPool = ({
   idleTimeoutMillis = 30000, // 如果一个实例 60分钟 都没访问就关掉他
   maxUses = 1024, // 每一个 实例 最大可重用次数，超过后将重启实例
   testOnBorrow = true, // 在将 实例 提供给用户之前，池应该验证这些实例。
-  autostart =  true, // 是不是需要在 池 初始化时 初始化 实例
+  autostart = true, // 是不是需要在 池 初始化时 初始化 实例
   evictionRunIntervalMillis = 180000, // 每 3分钟 检查一次 实例的访问状态
   puppeteerArgs = {},
   validator = () => Promise.resolve(true),
@@ -20,16 +20,17 @@ const initPuppeteerPool = ({
   debug('puppeteerArgs', puppeteerArgs)
   const factory = {
     create: () => puppeteer.launch(puppeteerArgs).then(instance => {
+      // eslint-disable-next-line no-param-reassign
       instance.useCount = 0
       return instance
     }),
-    destroy: (instance) => {
+    destroy: instance => {
       instance.close()
     },
-    validate: (instance) => {
+    validate: instance => {
       return validator(instance)
         .then(valid => Promise.resolve(valid && (maxUses <= 0 || instance.useCount < maxUses)))
-    },
+    }
   }
   const config = {
     max,
@@ -38,15 +39,16 @@ const initPuppeteerPool = ({
     autostart,
     idleTimeoutMillis,
     evictionRunIntervalMillis,
-    ...otherConfig,
+    ...otherConfig
   }
   const pool = genericPool.createPool(factory, config)
   const genericAcquire = pool.acquire.bind(pool)
   pool.acquire = () => genericAcquire().then(instance => {
+    // eslint-disable-next-line no-param-reassign
     instance.useCount += 1
     return instance
   })
-  pool.use = (fn) => {
+  pool.use = fn => {
     let resource
     return pool.acquire()
       .then(r => {
@@ -54,10 +56,10 @@ const initPuppeteerPool = ({
         return resource
       })
       .then(fn)
-      .then((result) => {
+      .then(result => {
         pool.release(resource)
         return result
-      }, (err) => {
+      }, err => {
         pool.release(resource)
         throw err
       })
