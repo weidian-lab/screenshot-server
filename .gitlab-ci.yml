@@ -22,7 +22,7 @@ build-docker:
   script:
     - make prodDockerImg
 
-deploy:
+deploy-test:
   image:
     name: sqlwwx/k8s-kubectl:latest
     entrypoint: ["/bin/sh", "-c"]
@@ -33,7 +33,7 @@ deploy:
     - mkdir -p $HOME/.kube
     - echo -n $KUBE_CONFIG_DEV | base64 -d > $HOME/.kube/config
   script:
-    - make deployDev
+    - APP_ENV=test make deployDev
 
 deploy-prod:
   image:
@@ -41,9 +41,9 @@ deploy-prod:
     entrypoint: ["/bin/sh", "-c"]
   stage: deploy
   only:
-    - tags
+    - master
   before_script:
     - mkdir -p $HOME/.kube
     - echo -n $KUBE_CONFIG_DEV | base64 -d > $HOME/.kube/config
   script:
-    - make deployProd
+    - APP_ENV=production make deployProd
