@@ -1,6 +1,6 @@
 {
   "name": "screenshot-server",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "weidian": {
@@ -9,6 +9,7 @@
   "scripts": {
     "lint": "eslint --format 'node_modules/eslint-friendly-formatter' --fix app",
     "initAliyunService": "NAMESPACE=base weidian aliyunService init .",
+    "test": "echo \"Error: no test specified\" && exit 0",
     "start": "node app"
   },
   "author": "sqlwwx <wwx_2012@live.com> (http://wiki.lab.wuweixing.com)",
@@ -31,6 +32,6 @@
     "eslint-friendly-formatter": "^4.0.1",
     "husky": "^3.0.1",
     "lint-staged": "^9.2.0",
-    "weidian-cli": "git+ssh://git@gitlab.weidiango.com:tools/weidian-cli.git"
+    "weidian-cli": "^1.0.0"
   }
 }

@@ -25,3 +25,7 @@ curl --request POST \
 '{"url":"https://www.baidu.com","fullPage":1}'
 >> baidu.jpeg
 ```
+
+## TODO
+
+- [ ] add test
