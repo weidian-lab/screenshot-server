@@ -1,4 +1,4 @@
-FROM registry.cn-hangzhou.aliyuncs.com/weidian-lab/base-screenshot-server:base-0.0.1
+FROM sqlwwx/puppeteer
 
 WORKDIR /app/
 
@@ -7,6 +7,6 @@ COPY package.json yarn.lock ./
 RUN yarn --frozen-lockfile --no-cache --production && \
   rm -rf /tmp/* && rm -rf $HOME/.npm/_cacache && rm -f package.json package-lock.json
 
-COPY app pp
-
-CMD npm start
+ENV PORT=7001
+ENV SCREEN_ALLOW_FILE_SCHEME=true
+ENV CHROMIUM_ARGS=--no-sandbox,--disable-gpu,--single-process,--disable-dev-shm-usage
