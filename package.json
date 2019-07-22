@@ -7,6 +7,7 @@
     "namespace": "base"
   },
   "scripts": {
+    "lint": "eslint --format 'node_modules/eslint-friendly-formatter' --fix app",
     "initAliyunService": "NAMESPACE=base weidian aliyunService init .",
     "start": "node app"
   },
@@ -23,6 +24,9 @@
     "pure-func": "^2.0.6"
   },
   "devDependencies": {
+    "eslint": "^6.1.0",
+    "eslint-config-standard-airbnb": "^0.0.6",
+    "eslint-friendly-formatter": "^4.0.1",
     "weidian-cli": "git+ssh://git@gitlab.weidiango.com:tools/weidian-cli.git"
   }
 }
