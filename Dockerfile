@@ -1,4 +1,4 @@
-FROM registry.cn-hangzhou.aliyuncs.com/weidian-lab/base-screenshot-server:base-0.0.1
+FROM registry.cn-hangzhou.aliyuncs.com/weidian-lab/base-screenshot-server:base-0.0.2
 
 WORKDIR /app/
 
