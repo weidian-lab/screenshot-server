@@ -1313,14 +1313,14 @@ eslint-config-airbnb@^17:
     object.assign "^4.1.0"
     object.entries "^1.1.0"
 
-eslint-config-standard-airbnb@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.npm.taobao.org/eslint-config-standard-airbnb/download/eslint-config-standard-airbnb-0.0.6.tgz#62943029aade79bdabbf0b53399fb699431e999c"
-  integrity sha1-YpQwKareeb2rvwtTOZ+2mUMemZw=
+eslint-config-standard-airbnb@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.npm.taobao.org/eslint-config-standard-airbnb/download/eslint-config-standard-airbnb-0.0.7.tgz#39b299208c848b21fead787ab9111b14b1c5f8b4"
+  integrity sha1-ObKZIIyEiyH+rXh6uREbFLHF+LQ=
   dependencies:
     babel-eslint "^10"
     eslint-config-airbnb "^17"
-    eslint-config-standard "^12"
+    eslint-config-standard "^13"
     eslint-plugin-import "^2"
     eslint-plugin-jsx-a11y "^6"
     eslint-plugin-node "^9"
@@ -1328,10 +1328,10 @@ eslint-config-standard-airbnb@^0.0.6:
     eslint-plugin-react "^7"
     eslint-plugin-standard "^4"
 
-eslint-config-standard@^12:
-  version "12.0.0"
-  resolved "https://registry.npm.taobao.org/eslint-config-standard/download/eslint-config-standard-12.0.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Feslint-config-standard%2Fdownload%2Feslint-config-standard-12.0.0.tgz#638b4c65db0bd5a41319f96bba1f15ddad2107d9"
-  integrity sha1-Y4tMZdsL1aQTGflruh8V3a0hB9k=
+eslint-config-standard@^13:
+  version "13.0.1"
+  resolved "https://registry.npm.taobao.org/eslint-config-standard/download/eslint-config-standard-13.0.1.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Feslint-config-standard%2Fdownload%2Feslint-config-standard-13.0.1.tgz#c9c6ffe0cfb8a51535bc5c7ec9f70eafb8c6b2c0"
+  integrity sha1-ycb/4M+4pRU1vFx+yfcOr7jGssA=
 
 eslint-friendly-formatter@^4.0.1:
   version "4.0.1"

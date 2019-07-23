@@ -44,6 +44,6 @@ deploy-prod:
     - master
   before_script:
     - mkdir -p $HOME/.kube
-    - echo -n $KUBE_CONFIG_DEV | base64 -d > $HOME/.kube/config
+    - echo -n $KUBE_CONFIG | base64 -d > $HOME/.kube/config
   script:
     - APP_ENV=production make deployProd
