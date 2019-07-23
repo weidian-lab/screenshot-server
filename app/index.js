@@ -31,9 +31,9 @@ app.use(async (ctx, next) => {
   ctx.set('X-Response-Time', `${use}ms`)
   if (use < 200) { return }
   const log = `[${ctx.state.pid}] ${ctx.timing.toString()}`
-  if (use > 10000) { ctx.logger.error(log) }
-  if (use > 5000) { ctx.logger.warn(log) }
-  if (use > 2000) { ctx.logger.info(log) }
+  if (use > 8000) { ctx.logger.error(log) }
+  if (use > 2000) { ctx.logger.warn(log) }
+  if (use > 500) { ctx.logger.info(log) }
 })
 
 app.use(bodyParser())
