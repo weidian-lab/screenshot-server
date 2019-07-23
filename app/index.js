@@ -69,8 +69,8 @@ app.use(async (ctx, next) => {
   }
   ctx.type = format
   ctx.state.format = format
-  await next()
   ctx.timing.end('validate')
+  await next()
 })
 
 app.use(async (ctx, next) => {
@@ -83,9 +83,7 @@ app.use(async (ctx, next) => {
   ctx.logger.debug(`Instantiating Page with size ${size.width}x${size.height}`)
   let pageError
   ctx.timing.start('screenshot')
-  ctx.timing.start('getInst')
   await pool.use(inst => {
-    ctx.timing.end('getInst')
     const { pid } = inst.process()
     ctx.state.pid = pid
     ctx.logger.debug(`Using browser instance with PID ${pid}`)
