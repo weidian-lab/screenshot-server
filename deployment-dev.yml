@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: ${NAMESPACE}-${APP_NAME}-slb
+  name: ${NAMESPACE}-${APP_NAME}-svc
   namespace: ${NAMESPACE}
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
   - port: 80
     protocol: TCP
@@ -12,6 +12,20 @@ spec:
   selector:
     app: ${NAMESPACE}-${APP_NAME}
 ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: ${NAMESPACE}-${APP_NAME}-slb
+#   namespace: ${NAMESPACE}
+# spec:
+#   type: LoadBalancer
+#   ports:
+#   - port: 80
+#     protocol: TCP
+#     targetPort: 7001
+#   selector:
+#     app: ${NAMESPACE}-${APP_NAME}
+# ---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
