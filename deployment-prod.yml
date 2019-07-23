@@ -20,7 +20,7 @@ metadata:
   name: ${NAMESPACE}-${APP_NAME}
   namespace: ${NAMESPACE}
 spec:
-  replicas: 1
+  replicas: 2
   progressDeadlineSeconds: 600
   revisionHistoryLimit: 10
   template:
@@ -52,9 +52,9 @@ spec:
             - name: CI_COMMIT_SHA
               value: "${CI_COMMIT_SHA}"
             - name: PUPPETEER_POOL_MIN
-              value: 5
+              value: "5"
             - name: PUPPETEER_POOL_MAX
-              value: 10
+              value: "10"
           imagePullPolicy: "Always"
           livenessProbe:
             failureThreshold: 5
