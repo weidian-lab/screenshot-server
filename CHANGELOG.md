@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.3](https://gitlab.weidiango.com/base-services/screenshot-server/compare/v0.0.2...v0.0.3) (2019-07-23)
+
+
+### Bug Fixes
+
+* timing ([d576844](https://gitlab.weidiango.com/base-services/screenshot-server/commit/d576844))
+* timing ([ddd3245](https://gitlab.weidiango.com/base-services/screenshot-server/commit/ddd3245))
+
+
+### Build System
+
+* add logtail config ([201d843](https://gitlab.weidiango.com/base-services/screenshot-server/commit/201d843))
+* add logtail config ([d455d43](https://gitlab.weidiango.com/base-services/screenshot-server/commit/d455d43))
+* 开发环境使用内网 ([4d83947](https://gitlab.weidiango.com/base-services/screenshot-server/commit/4d83947))
+
+
+### Features
+
+* add timing ([6bb360c](https://gitlab.weidiango.com/base-services/screenshot-server/commit/6bb360c))
+
+
+
 ### 0.0.2 (2019-07-22)
 
 
