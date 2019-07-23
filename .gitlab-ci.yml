@@ -11,7 +11,7 @@ build-docker:
   image: sqlwwx/docker-stable:latest
   stage: build
   only:
-    - tags
+    - master
     - develop
   tags:
     - docker
