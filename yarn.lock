@@ -2760,6 +2760,11 @@ mz@^2.7.0:
     object-assign "^4.0.1"
     thenify-all "^1.0.0"
 
+nano-seconds@^1.2.0:
+  version "1.2.2"
+  resolved "https://registry.npm.taobao.org/nano-seconds/download/nano-seconds-1.2.2.tgz#e8d89971547a57083201ca121543aeeafeab4b02"
+  integrity sha1-6NiZcVR6VwgyAcoSFUOu6v6rSwI=
+
 natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.npm.taobao.org/natural-compare/download/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
@@ -3759,6 +3764,13 @@ strip-json-comments@^3.0.1:
   version "3.0.1"
   resolved "https://registry.npm.taobao.org/strip-json-comments/download/strip-json-comments-3.0.1.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fstrip-json-comments%2Fdownload%2Fstrip-json-comments-3.0.1.tgz#85713975a91fb87bf1b305cca77395e40d2a64a7"
   integrity sha1-hXE5dakfuHvxswXMp3OV5A0qZKc=
+
+supertiming@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.npm.taobao.org/supertiming/download/supertiming-2.0.1.tgz#34bc9f683838975a21303a9969bc5dbb4ae82328"
+  integrity sha1-NLyfaDg4l1ohMDqZabxdu0roIyg=
+  dependencies:
+    nano-seconds "^1.2.0"
 
 supports-color@^2.0.0:
   version "2.0.0"

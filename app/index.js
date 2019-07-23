@@ -1,4 +1,5 @@
 const Koa = require('koa')
+const Timing = require('supertiming')
 const bodyParser = require('koa-bodyparser')
 const { sleep } = require('pure-func/promise')
 
@@ -20,10 +21,19 @@ const pool = createPuppeteerPool({
 })
 
 app.use(async (ctx, next) => {
-  const startedAt = Date.now()
+  ctx.timing = new Timing()
+  ctx.timing.start('Total')
   ctx.logger = new ContextLogger(ctx, logger)
   await next()
-  ctx.logger.info(`${ctx.method} ${ctx.path} [${ctx.state.pid}] - ${Date.now() - startedAt}`)
+  ctx.timing.end('*')
+  ctx.set('Server-Timing', ctx.timing.toServerTiming())
+  const { use } = ctx.timing.toJSON(true)[0]
+  ctx.set('X-Response-Time', `${use}ms`)
+  if (use < 200) { return }
+  const log = `[${ctx.state.pid}] ${ctx.timing.toString()}`
+  if (use > 10000) { ctx.logger.error(log) }
+  if (use > 5000) { ctx.logger.warn(log) }
+  if (use > 2000) { ctx.logger.info(log) }
 })
 
 app.use(bodyParser())
@@ -36,6 +46,7 @@ app.use(async (ctx, next) => {
 })
 
 app.use(async (ctx, next) => {
+  ctx.timing.start('validate')
   const { url } = ctx.request.query
   if (!url) {
     ctx.throw(400, 'No url request parameter supplied.')
@@ -59,6 +70,7 @@ app.use(async (ctx, next) => {
   ctx.type = format
   ctx.state.format = format
   await next()
+  ctx.timing.end('validate')
 })
 
 app.use(async (ctx, next) => {
@@ -70,11 +82,16 @@ app.use(async (ctx, next) => {
   }
   ctx.logger.debug(`Instantiating Page with size ${size.width}x${size.height}`)
   let pageError
+  ctx.timing.start('screenshot')
+  ctx.timing.start('getInst')
   await pool.use(inst => {
+    ctx.timing.end('getInst')
     const { pid } = inst.process()
     ctx.state.pid = pid
     ctx.logger.debug(`Using browser instance with PID ${pid}`)
+    ctx.timing.start('newPage')
     return inst.newPage().then(page => {
+      ctx.timing.end('newPage')
       ctx.logger.debug('Set page instance on state')
       ctx.state.page = page
     }).then(() => {
@@ -113,6 +130,7 @@ app.use(async (ctx, next) => {
   const { width, height } = page.viewport()
   let renderError
   ctx.logger.debug(`Rendering screenshot of ${url} to ${format}`)
+  ctx.timing.start('screenshotImg')
   if (format === 'pdf') {
     await page.pdf({
       format: 'A4',
@@ -139,7 +157,8 @@ app.use(async (ctx, next) => {
   if (renderError) {
     ctx.throw(400, `Could not render page: ${renderError.message}`)
   }
-  await page.close()
+  ctx.timing.end('screenshotImg')
+  page.close()
   await next()
 })
 
