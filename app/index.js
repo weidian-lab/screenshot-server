@@ -108,12 +108,16 @@ app.use(async (ctx, next) => {
 })
 
 app.use(async (ctx, next) => {
-  const { url } = ctx.request.query
+  const { url, screenshotDelay } = ctx.request.query
   const { page } = ctx.state
   ctx.logger.debug(`Attempting to load ${url}`)
   try {
-    await page.goto(url)
-    await sleep(config.screen.screenshotDelay)
+    ctx.timing.start('goto')
+    await page.goto(url, { waitUntil: 'load' })
+    if (screenshotDelay) {
+      await sleep(parseInt(screenshotDelay, 10))
+    }
+    ctx.timing.end('goto')
   } catch (err) {
     ctx.logger.error(err)
     ctx.throw(404)

@@ -4,7 +4,6 @@ const {
   PUPPETEER_POOL_MAX = 10,
   CHROME_BIN,
   CHROME_ARGS = '--no-sandbox',
-  SCREENSHOT_DELAY = 50,
   SCREEN_WIDTH = 750,
   SCREEN_HEIGHT = 768,
   DEFAULT_FORMAT = 'jpeg',
@@ -18,7 +17,6 @@ exports.server = {
 exports.wwwPath = WWW_PATH
 
 exports.screen = {
-  screenshotDelay: SCREENSHOT_DELAY,
   width: SCREEN_WIDTH,
   height: SCREEN_HEIGHT,
   defaultFormat: DEFAULT_FORMAT,
